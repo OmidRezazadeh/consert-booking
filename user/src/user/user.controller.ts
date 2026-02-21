@@ -7,9 +7,4 @@ export class UserController {
         private readonly userService: UserService
     ) {} 
 
-    @Get("test")
-  async  getUser() {
-        const user={userId:1,email:"test@example.com"};
-        return await this.userService.createUser(user);
-    }
 }

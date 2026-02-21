@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MicroservicesModule } from './shared/microservices.module';
+import { ConfigModule } from '@nestjs/config';
+import { MicroserviceClientModule } from './common/microserviceClient.module';
 import { UserModule } from './user/user.module';
-import { BookingModule } from './booking/booking.module';
-import { ConcertModule } from './concert/concert.module';
-
 @Module({
-  imports: [UserModule, BookingModule, ConcertModule],
-  controllers: [AppController],
-  providers: [AppService],
+  
+  imports: [
+     ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MicroserviceClientModule,
+    MicroservicesModule,
+    UserModule
+  ],
 })
 export class AppModule {}
