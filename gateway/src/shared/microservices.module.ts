@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ServiceNames } from './constants';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
-
+import { Partitioners } from 'kafkajs';
 @Module({
   imports: [
     ClientsModule.registerAsync([
@@ -15,13 +15,16 @@ import { ConfigService } from '@nestjs/config';
           options: {
             client: {
               clientId: configService.get<string>('GATEWAY_CLIENT_ID')!,
-              
+
               brokers: [
                 configService.get<string>('KAFKA_BROKER')!,
               ],
             },
             consumer: {
               groupId: configService.get<string>('GATEWAY_GROUP_ID')!,
+            },
+            producer: {
+              createPartitioner: Partitioners.LegacyPartitioner,
             },
           },
         }),
@@ -31,4 +34,4 @@ import { ConfigService } from '@nestjs/config';
   ],
   exports: [ClientsModule],
 })
-export class MicroservicesModule {}
+export class MicroservicesModule { }

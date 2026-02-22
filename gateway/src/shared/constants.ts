@@ -1,6 +1,7 @@
 // shared/constants.ts
 export enum UserTopics {
   REGISTER = 'register',
+  LOGIN = 'login',
   
 }
 
