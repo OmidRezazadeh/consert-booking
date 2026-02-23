@@ -10,24 +10,13 @@ export class AuthController {
     constructor(
         private readonly authService: AuthService
     ) { }
-    @MessagePattern('register')
-    async register(@Payload() registerDto: RegisterDto) {
-        const existingUser = await this.authService.findUserByMobile(registerDto.mobile);
+   @MessagePattern('register')
+  async register(@Payload() registerDto: RegisterDto) {
+    return this.authService.register(registerDto);
+  }
 
-        if (existingUser) {
-            throw new RpcException({
-                status: 'error',
-                message: 'User with this mobile already exists',
-            });
-        }
-        return this.authService.store(registerDto);
-
-    }
-    @MessagePattern('login')
-    async login(@Payload() loginDto: LoginDto) {
-        await this.authService.validateLogin(loginDto);
-        return this.authService.makeToken(loginDto);
-
-
-    }
+  @MessagePattern('login')
+  async login(@Payload() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
+  }
 }
